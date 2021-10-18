@@ -34,7 +34,12 @@ void CPM::start() {
 	}
 }
 
+void CPM::stop() {
+	this->running = false;
+}
+
 void CPM::menu_init() {
+
 	menu.banner.push_back("++========================================================++");
 	menu.banner.push_back("++                 Collatz Password Manager               ++");
 	menu.banner.push_back("++========================================================++");
@@ -47,11 +52,17 @@ void CPM::menu_init() {
 }
 
 void CPM::create_pwd() {
-
+	std::string name, pwd;
+	std::getline(std::cin, name);
+	std::getline(std::cin, pwd);
+	this->auth_pm.create(name, pwd);
 }
 
 void CPM::auth_pwd() {
-
+	std::string name, pwd;
+	std::getline(std::cin, name);
+	std::getline(std::cin, pwd);
+	this->auth_pm.auth(name, pwd);
 }
 
 void CPM::gen_report() {
@@ -61,3 +72,5 @@ void CPM::gen_report() {
 void CPM::analyse_report() {
 
 }
+
+

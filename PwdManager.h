@@ -1,13 +1,16 @@
 #pragma once
 #include <string>
 #include "Collatz.h"
+#include "FileManager.h"
 
 class PwdManager {
 public:
 	PwdManager();
 	~PwdManager();
 	std::string generate(std::string input);
-private:
+	void store();
+
+protected:
 	Collatz collatz;
-	FileManager file_manager;
+	std::vector<FileManager*> file_manager;
 };

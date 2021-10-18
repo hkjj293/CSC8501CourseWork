@@ -29,7 +29,7 @@ void Menu::show(){
 int Menu::get_input() {
 	try {
 		std::string inp;
-		std::cin >> inp;
+		std::getline(std::cin,inp);
 		return(std::stoi(inp));
 	}
 	catch (...) {

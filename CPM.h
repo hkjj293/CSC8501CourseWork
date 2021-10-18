@@ -1,7 +1,9 @@
 #pragma once
 #include "Menu.h"
+#include "AuthPM.h"
+#include "AnalystPM.h"
 
-static class CPM {
+class CPM {
 public:
 	CPM();
 	~CPM();
@@ -15,6 +17,6 @@ private:
 	void analyse_report();
 	bool running;
 	Menu menu;
-	//AuthPM auth_pm;
-	//AnalystPM analyst_pm;
+	AuthPM auth_pm;
+	AnalystPM analyst_pm;
 };

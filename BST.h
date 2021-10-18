@@ -33,18 +33,16 @@ template <typename T>
 BST<T>::~BST() {
 	struct nodeTemplate<T>* curr = this->root;
 	struct nodeTemplate<T>** stack = new nodeTemplate<T> * [this->depth];
-	for (int i = 0; i < this->depth; i++) {
-		stack[i] = NULL;
-	}
+	for (int i = 0; i < this->depth; i++) {stack[i] = NULL;}
 	int depth = 1;
 	while (curr != NULL || depth != 1) {
 		this->get_leftmost(curr, stack, depth);
 		struct nodeTemplate<T>* disposal = curr;
 		curr = curr->right;
-		std::cout << "deleting " << disposal->value << std::endl;
+		//std::cout << "deleting " << disposal->value << std::endl;
 		delete disposal;
 		disposal = NULL;
-		std::cout << "deleted" << std::endl;
+		//std::cout << "deleted" << std::endl;
 	}
 	delete[] stack;
 	stack = NULL;
@@ -57,14 +55,10 @@ void BST<T>::add_node(T val) {
 	int depth = 1;
 	while ((*curr) != NULL) {
 		depth++;
-		if (val < (*curr)->value) {
-			curr = &((*curr)->left);
-		}
-		else {
-			curr = &((*curr)->right);
-		}
+		if (val < (*curr)->value) {curr = &((*curr)->left);}
+		else { curr = &((*curr)->right);}
 	}
-	*curr = new nodeTemplate<T>;
+	*curr = new nodeTemplate<T>();
 	(*curr)->left = NULL;
 	(*curr)->right = NULL;
 	(*curr)->value = val;

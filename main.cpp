@@ -5,6 +5,7 @@
 int main() {
 	CPM manager = CPM();
 	manager.start();
+	/*
 	BST<int>* bst = new BST<int>();
 	srand(10);
 	for (int i = 0; i < 10; i++) {
@@ -12,4 +13,5 @@ int main() {
 	}
 	bst->print();
 	delete bst;
+	*/
 }
