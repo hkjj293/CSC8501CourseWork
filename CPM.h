@@ -1,16 +1,20 @@
 #pragma once
-#include "User.h"
 #include "Menu.h"
 
-class CPM {
+static class CPM {
 public:
 	CPM();
 	~CPM();
-	bool validate(std::string name, std::string pwd);
-	bool create_user(std::string name, std::string pwd);
-protected:
-	std::string collatz_conjecture();
-	User* users;
-	void load_users();
-	void save_users();
+	void start();
+	void stop();
+private:
+	void menu_init();
+	void create_pwd();
+	void auth_pwd();
+	void gen_report();
+	void analyse_report();
+	bool running;
+	Menu menu;
+	//AuthPM auth_pm;
+	//AnalystPM analyst_pm;
 };
