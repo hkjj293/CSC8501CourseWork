@@ -4,14 +4,15 @@
 #include <vector>
 #include <chrono>
 #include "Collatz.h"
+#include "PWD.h"
 
 class Cracker {
 public:
 	Cracker() {};
 	virtual ~Cracker() {};
 	std::string generate(std::string input);
-	virtual std::chrono::nanoseconds crack(std::string pwd, std::chrono::nanoseconds dur) = 0;
-protected:
+	virtual PWD crack(std::string& pwd, std::chrono::nanoseconds& dur) = 0;
 	std::string name;
+protected:
 	Collatz collatz;
 };

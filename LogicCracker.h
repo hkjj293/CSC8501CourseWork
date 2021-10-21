@@ -1,10 +1,10 @@
 #pragma once
 #include "Cracker.h"
 
-class BruteForceCracker : public Cracker {
+class LogicCracker : public Cracker {
 public:
-	BruteForceCracker();
-	virtual ~BruteForceCracker();
+	LogicCracker();
+	virtual ~LogicCracker();
 	virtual PWD crack(std::string& pwd, std::chrono::nanoseconds& dur);
 protected:
 };

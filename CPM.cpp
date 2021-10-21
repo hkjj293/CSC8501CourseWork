@@ -88,8 +88,8 @@ void CPM::gen_file() {
 }
 
 void CPM::analyse_file() {
-	std::chrono::seconds dur(1);
-	this->analyst_pm.test(1, 100, 100, (std::chrono::nanoseconds)dur);
+	std::chrono::milliseconds dur(100);
+	this->analyst_pm.test(1, 1000, 100, (std::chrono::nanoseconds)dur);
 }
 
 

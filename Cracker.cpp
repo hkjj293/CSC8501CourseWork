@@ -8,4 +8,5 @@ std::string Cracker::generate(std::string input) {
 		offset = collatz.compute((input[i] & 255) + offset);
 		output += std::to_string(offset);
 	}
+	return output;
 }
