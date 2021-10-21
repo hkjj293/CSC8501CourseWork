@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <functional>
 
 template <typename T>
 struct nodeTemplate {
@@ -14,10 +15,11 @@ class BST {
 public:
 	BST();
 	~BST();
-	void add_node(T val);
+	inline void add_node(T val);
 	inline void get_leftmost(struct nodeTemplate<T>*& curr, struct nodeTemplate<T>**& stack, int& depth);
 	void print();
-	bool has_element(T val);
+	void iterate(std::function<void(T&)>* func);
+	inline bool has_element(T val);
 private:
 	struct nodeTemplate<T>* root;
 	int depth;
@@ -31,18 +33,16 @@ BST<T>::BST() {
 
 template <typename T>
 BST<T>::~BST() {
-	struct nodeTemplate<T>* curr = this->root;
-	struct nodeTemplate<T>** stack = new nodeTemplate<T> * [this->depth];
-	for (int i = 0; i < this->depth; i++) {stack[i] = NULL;}
+	auto curr = this->root;
+	auto stack = new nodeTemplate<T> * [this->depth];
+	for (int i = 0; i < this->depth; i++) { stack[i] = NULL; }
 	int depth = 1;
 	while (curr != NULL || depth != 1) {
 		this->get_leftmost(curr, stack, depth);
 		struct nodeTemplate<T>* disposal = curr;
 		curr = curr->right;
-		//std::cout << "deleting " << disposal->value << std::endl;
 		delete disposal;
 		disposal = NULL;
-		//std::cout << "deleted" << std::endl;
 	}
 	delete[] stack;
 	stack = NULL;
@@ -50,8 +50,8 @@ BST<T>::~BST() {
 }
 
 template <typename T>
-void BST<T>::add_node(T val) {
-	struct nodeTemplate<T>** curr = &(this->root);
+inline void BST<T>::add_node(T val) {
+	auto curr = &(this->root);
 	int depth = 1;
 	while ((*curr) != NULL) {
 		depth++;
@@ -67,15 +67,19 @@ void BST<T>::add_node(T val) {
 
 template <typename T>
 void BST<T>::print() {
-	struct nodeTemplate<T>* curr = this->root;
-	struct nodeTemplate<T>** stack = new nodeTemplate<T> * [this->depth];
-	for (int i = 0; i < this->depth; i++) {
-		stack[i] = NULL;
-	}
+	std::function<void(T&)> cout_print = [](T& t) {std::cout << t << std::endl; };
+	this->iterate(&cout_print);
+}
+
+template <typename T>
+void BST<T>::iterate(std::function<void(T&)>* func) {
+	auto curr = this->root;
+	auto stack = new nodeTemplate<T> *[this->depth];
+	for (int i = 0; i < this->depth; i++) { stack[i] = NULL; }
 	int depth = 1;
 	while (curr != NULL || depth != 1) {
 		this->get_leftmost(curr, stack, depth);
-		std::cout << curr->value << std::endl;
+		(*func)(curr->value);
 		curr = curr->right;
 	}
 	delete[] stack;
@@ -83,8 +87,8 @@ void BST<T>::print() {
 }
 
 template <typename T>
-bool BST<T>::has_element(T val) {
-	struct nodeTemplate<T>* curr = this->root;
+inline bool BST<T>::has_element(T val) {
+	auto curr = this->root;
 	while (curr != NULL) {
 		if (val == curr->value) return true;
 		if (val < curr->value) {
