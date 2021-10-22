@@ -88,7 +88,7 @@ void BST<T>::iterate(std::function<void(T&)>* func) {
 
 template <typename T>
 inline bool BST<T>::has_element(T val) {
-	auto curr = this->root;
+	nodeTemplate<T>* curr = this->root;
 	while (curr != NULL) {
 		if (val == curr->value) return true;
 		if (val < curr->value) {

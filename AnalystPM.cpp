@@ -31,7 +31,7 @@ void AnalystPM::test(int min_char_len, int max_char_len, int num_per_set, std::c
 			i++;
 			if (i % num_per_set == 0) {
 				mux.lock();
-				std::cout << "Processing... Method: " << (*cr)->name << ", set: " << j << "." << std::endl;
+				std::cout << "Processing..." << ", set: " << j << "." << std::endl;
 				mux.unlock();
 				j++;
 			}
@@ -62,7 +62,6 @@ void AnalystPM::print_test(int min_char_len, int max_char_len, int num_per_set, 
 		}
 		round++;
 	}
-
 }
 
 void AnalystPM::store(std::vector<std::string>& pwds, std::ofstream::openmode mode) {

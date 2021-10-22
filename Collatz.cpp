@@ -63,6 +63,7 @@ void Collatz::generate_set(int min, int max) {
 
 void Collatz::generate_string_map() {
 	for (auto iter = this->collatz_map.begin(); iter != this->collatz_map.end(); iter++) {
+		//std::cout << std::to_string((*iter).second) << "][][][][][][][][";
 		this->collatz_string_map[std::to_string((*iter).second)] = (*iter).second;
 	}
 }

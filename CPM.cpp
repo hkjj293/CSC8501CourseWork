@@ -99,7 +99,7 @@ void CPM::analyse_file() {
 	this->analyst_pm.report.clear();
 	std::chrono::nanoseconds dur = (std::chrono::nanoseconds)std::chrono::milliseconds(10);
 	std::vector<std::thread> threads;
-	int limit = 2000, num_per_batch = 100, batch_size = 100, num_thread = std::thread::hardware_concurrency()/2;
+	int limit = 2000, num_per_batch = 100, batch_size = 100, num_thread = std::thread::hardware_concurrency();
 	int left = limit;
 	std::vector<std::vector<PWD>> reports(num_thread);
 	batch_size = (left / num_per_batch) / (num_thread);

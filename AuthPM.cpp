@@ -27,7 +27,10 @@ void AuthPM::create(std::string name, std::string pwd) {
 int AuthPM::auth(std::string name, std::string pwd) {
 	User user(name, this->generate(pwd));
 	if (this->users->has_element(user)) {
-		if (this->users->has_element(user) && user.compare_pwd(user)) {
+		bool match = false;
+		std::function<void(User&)> fn = [this, &match, &pwd](User& usr) {if (usr.encryped_pwd == this->generate(pwd)) { match = true; }};
+		this->users->iterate(&fn);
+		if (match) {
 			std::cout << "Success!" << std::endl;
 			return 1;
 		}
