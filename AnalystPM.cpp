@@ -29,12 +29,7 @@ void AnalystPM::test(int min_char_len, int max_char_len, int num_per_set, std::c
 		for (auto cr = this->crackers.begin(); cr < this->crackers.end(); cr++) {
 			report.push_back((*cr)->crack(*iter, dur));
 			i++;
-			if (i % num_per_set == 0) {
-				mux.lock();
-				std::cout << "Processing..." << ", set: " << j << "." << std::endl;
-				mux.unlock();
-				j++;
-			}
+			j+= (i % num_per_set == 0);
 		}
 	}
 }
@@ -53,7 +48,7 @@ void AnalystPM::print_test(int min_char_len, int max_char_len, int num_per_set, 
 			}
 			k++;
 			if (k % num_per_set == 0) {
-				std::cout <<  length <<"  Set: " << j << " average: ";
+				std::cout <<"  length: " << j%100 << " average: ";
 				std::cout << nano.count() / ((long long)(count == 0) + (long long)((count != 0) * (long long)count)) << " Nanoseconds. Crack percentage: " << ((float)count / (float)num_per_set)*100 << "%" << std::endl;
 				nano = std::chrono::nanoseconds::zero();
 				j++;

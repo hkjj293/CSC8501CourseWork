@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a36f9c1c-0610-4a7f-ac98-a1b4f40da52b}</UniqueIdentifier>
+      <Extensions>.cpp</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Collatz.cpp" />
+    <ClCompile Include="CPM.cpp" />
+    <ClCompile Include="Cracker.cpp" />
+    <ClCompile Include="LogicCracker.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PwdGenRule1.cpp" />
+    <ClCompile Include="PwdGenRule2.cpp" />
+    <ClCompile Include="PwdManager.cpp" />
+    <ClCompile Include="AnalystPM.cpp" />
+    <ClCompile Include="AuthPM.cpp" />
+    <ClCompile Include="BruteForceCracker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Collatz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicCracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PWD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PwdGen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PwdGenRule1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PwdGenRule2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PwdManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnalystPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AuthPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BruteForceCracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
