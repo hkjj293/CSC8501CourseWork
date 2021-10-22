@@ -1,5 +1,12 @@
 #include<iostream>
 #include "CPM.h"
+#include <thread>
+#include  <any>
+#include <fstream>
+
+void run_in_thread(AnalystPM& apm, int from, int to, int size, std::chrono::nanoseconds dur, std::vector<PWD>& report) {
+	apm.test(from, to, size, dur,report);
+}
 
 CPM::CPM() {
 	this->running = true;
@@ -32,6 +39,7 @@ void CPM::loop() {
 			analyse_file();
 			break;
 		case 5:
+			decrypt();
 			break;
 		case 6:
 			this->running = false;
@@ -88,8 +96,49 @@ void CPM::gen_file() {
 }
 
 void CPM::analyse_file() {
-	std::chrono::milliseconds dur(100);
-	this->analyst_pm.test(1, 1000, 100, (std::chrono::nanoseconds)dur);
+	this->analyst_pm.report.clear();
+	std::chrono::nanoseconds dur = (std::chrono::nanoseconds)std::chrono::milliseconds(10);
+	std::vector<std::thread> threads;
+	int limit = 2000, num_per_batch = 100, batch_size = 100, num_thread = std::thread::hardware_concurrency()/2;
+	int left = limit;
+	std::vector<std::vector<PWD>> reports(num_thread);
+	batch_size = (left / num_per_batch) / (num_thread);
+	for (int i = 0; i < num_thread; i++) {
+		threads.push_back(std::thread(run_in_thread, std::ref(this->analyst_pm), i * num_per_batch * batch_size + 1, (i + 1) * num_per_batch * batch_size, num_per_batch, dur, std::ref(reports[i])));
+		left -= num_per_batch * batch_size;
+	}
+	for (int i = 0; i < num_thread; i++) {
+		threads[i].join();
+	}
+	for (int i = 0; i < num_thread; i++) {
+		std::ofstream ofs;
+		try {
+			ofs.open("reoprt.txt", std::ofstream::app);
+			for (auto iter = reports[i].begin(); iter < reports[i].end(); iter++) {
+				ofs << (*iter).time.count() << std::endl;
+			}
+		}
+		catch (const std::ofstream::failure& e) {
+			std::cout << e.what() << std::endl;
+		}
+		ofs.close();
+		this->analyst_pm.report.insert(this->analyst_pm.report.end(), reports[i].begin(), reports[i].end());
+	}
+	for (int i = 0; i < left/num_per_batch; i++) {
+		reports[i].clear();
+		threads[i] = std::thread(run_in_thread, std::ref(this->analyst_pm), (limit - left) + i * num_per_batch + 1, (limit - left) + (i+1) * num_per_batch, num_per_batch, dur, std::ref(reports[i]));
+	}
+	for (int i = 0; i < left/num_per_batch; i++) {
+		threads[i].join();
+	}
+	for (int i = 0; i < left/num_per_batch; i++) {
+		this->analyst_pm.report.insert(this->analyst_pm.report.end(), reports[i].begin(), reports[i].end());
+	}
+	this->analyst_pm.print_test(1, limit , num_per_batch, dur);
 }
 
+void CPM::decrypt() {
+	this->analyst_pm.gen_rand_pwd(1, 100, 100);
+	this->analyst_pm.store();
+}
 

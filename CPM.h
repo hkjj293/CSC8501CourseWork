@@ -17,6 +17,7 @@ private:
 	void auth_pwd();
 	void gen_file();
 	void analyse_file();
+	void decrypt();
 	bool running;
 	Menu menu;
 	AuthPM auth_pm;

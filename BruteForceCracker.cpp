@@ -34,7 +34,7 @@ PWD BruteForceCracker::crack(std::string& pwd, std::chrono::nanoseconds& dur) {
 		pwd_plus_one(test_pwd,1);
 	}
 	cracked.time = (nanoseconds)(high_resolution_clock::now() - start);
-	//std::cout << this->generate(test_pwd) << " - " << pwd << std::endl;
+	//if(this->generate(test_pwd) == pwd)std::cout << this->generate(test_pwd) << " - " << pwd << std::endl;
 	cracked.pwd = test_pwd;
 	return cracked;
-}
+} 

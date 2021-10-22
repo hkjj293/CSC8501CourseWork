@@ -2,14 +2,19 @@
 #include "PwdGenRule1.h"
 #include "PwdGenRule2.h"
 #include "BruteForceCracker.h"
+#include "LogicCracker.h"
 #include <iostream>
 #include <memory>
 #include <chrono>
+#include <mutex>
+
+std::mutex mux;
 
 AnalystPM::AnalystPM() : PwdManager() {
 	load();
 	this->pwdgens.push_back(new PwdGenRule1());
 	this->pwdgens.push_back(new PwdGenRule2());
+	this->crackers.push_back(new LogicCracker());
 	this->crackers.push_back(new BruteForceCracker());
 }
 
@@ -17,44 +22,45 @@ AnalystPM::~AnalystPM() {
 
 }
 
-void AnalystPM::test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds dur) {
-	int i = 0, j = 1, count = 0, length = max_char_len - min_char_len + 1;
+void AnalystPM::test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds dur, std::vector<PWD>& report) {
+	int i = min_char_len-1, j = min_char_len/ num_per_set + 1;
 	std::chrono::time_point start = std::chrono::high_resolution_clock::now();
-	this->report.reset(new std::vector<PWD>());
-	for (auto cr = this->crackers.begin(); cr < this->crackers.end(); cr++) {
-		for (auto iter = this->encryted_pwds.begin(); iter < this->encryted_pwds.begin() + length; iter++) {
-			this->report->push_back((*cr)->crack(*iter,dur));
+	for (auto iter = this->encryted_pwds.begin()+ min_char_len - 1; iter < this->encryted_pwds.end() && iter < this->encryted_pwds.begin() + max_char_len ; iter++) {
+		for (auto cr = this->crackers.begin(); cr < this->crackers.end(); cr++) {
+			report.push_back((*cr)->crack(*iter, dur));
 			i++;
 			if (i % num_per_set == 0) {
+				mux.lock();
 				std::cout << "Processing... Method: " << (*cr)->name << ", set: " << j << "." << std::endl;
+				mux.unlock();
 				j++;
 			}
 		}
 	}
-	std::cout << (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start)).count() << std::endl;
-	this->print_test(min_char_len, max_char_len, num_per_set, dur);
 }
 
 void AnalystPM::print_test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds& dur) {
-	int i = 0, j = 1, count = 0, length = max_char_len - min_char_len + 1;
+	int j = 1, count = 0, length = max_char_len - min_char_len + 1;
 	std::chrono::nanoseconds nano(0);
-	for (auto cr = this->crackers.begin(); cr < this->crackers.end(); cr++) {
+	int round = 0;
+	for (auto cr = this->crackers.begin(); cr < this->crackers.end() ; cr++) {
 		std::cout << (*cr)->name << ":" << std::endl;
-		for (auto iter = this->encryted_pwds.begin(); iter < this->encryted_pwds.begin() + length; iter++) {
-			if (this->report->at(i).time < dur) {
-				std::cout << this->report->at(i).time.count() << " - " << dur.count() << std::endl;
-				nano += (*this->report)[i].time;
+		int k = 0;
+		for (int i = round; i < this->report.size(); i+=2) {
+			if (this->report[i].time < dur) {
+				nano += this->report[i].time;
 				count++;
 			}
-			i++;
-			if (i % num_per_set == 0) {
-				std::cout << "  Set: " << j << " average: ";
+			k++;
+			if (k % num_per_set == 0) {
+				std::cout <<  length <<"  Set: " << j << " average: ";
 				std::cout << nano.count() / ((long long)(count == 0) + (long long)((count != 0) * (long long)count)) << " Nanoseconds. Crack percentage: " << ((float)count / (float)num_per_set)*100 << "%" << std::endl;
 				nano = std::chrono::nanoseconds::zero();
 				j++;
 				count = 0;
 			}
 		}
+		round++;
 	}
 
 }

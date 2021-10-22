@@ -11,13 +11,13 @@ public:
 	virtual ~AnalystPM();
 	void gen_rand_pwd(int min_char_len, int max_char_len, int per_set);
 	void store(std::vector<std::string>& pwds, std::ifstream::openmode mode);
-	void test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds dur);
+	void test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds dur, std::vector<PWD>& report);
 	void print_test(int min_char_len, int max_char_len, int num_per_set, std::chrono::nanoseconds& dur);
 	virtual inline void store();
 	virtual void load();
+	std::vector<PWD> report;
 private:
 	std::vector<std::string> encryted_pwds;
 	std::vector<PwdGen*> pwdgens;
 	std::vector<Cracker*> crackers;
-	std::unique_ptr<std::vector<PWD>> report;
 };
